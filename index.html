@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Controle Financeiro - Neo-Noir</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons+Round" rel="stylesheet">
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="app-container" id="app-main-view">
+        <header>
+            <div style="width: 24px;"></div> 
+            <h1></h1>
+            <div style="width: 24px;"></div> 
+        </header>
+
+        <div class="balanco-card">
+            <div class="balanco-header">
+                <span>TOTAL</span>
+            </div>
+            <div class="saldo-valor" id="saldo-total">R$ 0,00</div>
+            <div class="mini-info-container">
+                <div class="mini-info">
+                    <p>Total Entrada</p>
+                    <span style="color: var(--verde-lucro);" id="total-entrada">R$ 0,00</span>
+                </div>
+                <div class="mini-info">
+                    <p>Total Saída</p>
+                    <span style="color: var(--vermelho-vibrante);" id="total-saida">R$ 0,00</span>
+                </div>
+            </div>
+        </div>
+
+        <div class="transacoes-header">
+            <h2>Transações Recentes</h2>
+            <a href="#" class="ver-todas" id="btn-ver-todas">Ver todas</a>
+        </div>
+
+        <div id="lista-transacoes"></div>
+
+        <div class="bancos-header" style="margin-top: 24px; margin-bottom: 16px;">
+            <h2>Saldos por Banco</h2>
+        </div>
+        <div id="lista-bancos" class="bancos-container"></div>
+    </div>
+
+    <div class="app-container" id="app-categories-view" style="display: none;">
+        <header>
+            <div style="width: 24px;"></div>
+            <h1></h1>
+            <div style="width: 24px;"></div>
+        </header>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 24px;">
+            <select id="filtro-mes-categoria" class="select-input" style="width: auto; padding: 10px 35px 10px 15px; font-size: 15px; text-align: center;">
+                <option value="2026-06">Junho 2026</option>
+                <option value="2026-07">Julho 2026</option>
+                <option value="2026-08">Agosto 2026</option>
+                <option value="2026-09">Setembro 2026</option>
+                <option value="2026-10">Outubro 2026</option>
+                <option value="2026-11">Novembro 2026</option>
+                <option value="2026-12">Dezembro 2026</option>
+            </select>
+        </div>
+
+        <div class="relatorio-categorias-container">
+            <div class="grafico-box">
+                <canvas id="graficoCategorias" width="160" height="160"></canvas>
+            </div>
+            <div class="tabela-container">
+                <table class="tabela-categorias">
+                    <tbody id="corpo-tabela-categorias"></tbody>
+                </table>
+            </div>
+        </div>
+
+        <div style="margin-top: 24px; margin-bottom: 12px;">
+            <h3 style="font-size: 15px; color: var(--texto-cinza); font-weight: 600;">GASTOS DO MÊS</h3>
+        </div>
+        <div class="tabela-detalhada-container" style="background-color: var(--preto-card); border-radius: 16px; padding: 12px 16px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tbody id="lista-detalhada-gastos"></tbody>
+            </table>
+        </div>
+
+        <div style="margin-top: 24px; margin-bottom: 12px;">
+            <h3 style="font-size: 15px; color: var(--texto-cinza); font-weight: 600;">RECEITAS DO MÊS</h3>
+        </div>
+        <div class="tabela-detalhada-container" style="background-color: var(--preto-card); border-radius: 16px; padding: 12px 16px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tbody id="lista-detalhada-receitas"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <div class="app-container" id="app-history-view" style="display: none;">
+        <header>
+            <div style="width: 24px;"></div>
+            <h1></h1>
+            <div style="width: 24px;"></div>
+        </header>
+        <div id="lista-historico-completo"></div>
+    </div>
+
+    <div class="app-container" id="app-card-view" style="display: none;">
+        <header>
+            <div style="width: 24px;"></div>
+            <h1 style="font-size: 14px; letter-spacing: 2px; color: var(--vermelho-vibrante);">CARTÃO DE CRÉDITO</h1>
+            <div style="width: 24px;"></div>
+        </header>
+
+        <div style="display: flex; justify-content: center; margin-bottom: 20px;">
+            <select id="filtro-mes-cartao" class="select-input" style="width: auto; padding: 10px 35px 10px 15px; font-size: 15px; text-align: center;">
+                <option value="2026-06">Junho 2026</option>
+                <option value="2026-07">Julho 2026</option>
+                <option value="2026-08">Agosto 2026</option>
+                <option value="2026-09">Setembro 2026</option>
+                <option value="2026-10">Outubro 2026</option>
+                <option value="2026-11">Novembro 2026</option>
+                <option value="2026-12">Dezembro 2026</option>
+            </select>
+        </div>
+
+        <div class="balanco-card" style="background-color: #1a1213; border-color: rgba(225,9,20,0.5); margin-bottom: 20px;">
+            <div class="balanco-header"><span>FATURA DO MÊS</span></div>
+            <div class="saldo-valor" id="total-fatura-mes" style="color: var(--vermelho-vibrante);">R$ 0,00</div>
+        </div>
+
+        <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 16px;">
+            <h2>Compras no Cartão</h2>
+            <button id="btn-novo-cartao" class="btn-salvar" style="padding: 6px 14px; font-size: 13px; border-radius: 8px; width: auto;">+ Adicionar</button>
+        </div>
+
+        <div class="tabela-detalhada-container" style="background-color: var(--preto-card); border-radius: 16px; padding: 12px 16px;">
+            <table style="width: 100%; border-collapse: collapse; font-size: 14px;">
+                <tbody id="lista-compras-cartao"></tbody>
+            </table>
+        </div>
+    </div>
+
+    <nav>
+        <button class="nav-item ativo" id="nav-home">
+            <span class="material-icons-round">account_balance_wallet</span>
+        </button>
+        <button class="nav-item" id="nav-categorias">
+            <span class="material-icons-round">analytics</span>
+        </button>
+        
+        <button class="fab" id="btn-adicionar">
+            <span class="material-icons-round" style="font-size: 30px;">add</span>
+        </button>
+        
+        <button class="nav-item" id="nav-historico">
+            <span class="material-icons-round">receipt_long</span>
+        </button>
+        <button class="nav-item" id="nav-cartao">
+            <span class="material-icons-round">credit_card</span>
+        </button>
+    </nav>
+
+    <div class="modal-overlay" id="modal-gasto">
+        <div class="modal-container">
+            <h3 id="modal-titulo">Nova Movimentação</h3>
+            <div class="form-group">
+                <label for="transacao-nome">Descrição</label>
+                <input type="text" id="transacao-nome" placeholder="Ex: Aluguel, Uber, Salário">
+            </div>
+            <div class="form-group">
+                <label for="transacao-valor">Valor (R$)</label>
+                <input type="number" id="transacao-valor" step="0.01" placeholder="0,00">
+            </div>
+            <div class="form-group">
+                <label for="transacao-banco">Banco / Conta</label>
+                <select id="transacao-banco" class="select-input">
+                    <option value="Banco do Brasil">Banco do Brasil</option>
+                    <option value="Caixa Tem">Caixa Tem</option>
+                    <option value="Nubank">Nubank</option>
+                    <option value="Inter">Inter</option>
+                    <option value="Mercado Pago">Mercado Pago</option>
+                </select>
+            </div>
+            <div class="form-group" id="wrapper-categoria">
+                <label for="transacao-categoria">Categoria</label>
+                <select id="transacao-categoria" class="select-input">
+                    <option value="Alimentação">Alimentação</option>
+                    <option value="Fatura">Fatura</option>
+                    <option value="Roupas">Roupas</option>
+                    <option value="Beleza">Beleza</option>
+                    <option value="Assinaturas">Assinaturas</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label>Tipo de Movimentação</label>
+                <div class="tipo-botoes">
+                    <button type="button" class="btn-tipo despesa ativo" id="tipo-despesa">Despesa</button>
+                    <button type="button" class="btn-tipo receita" id="tipo-receita">Receita</button>
+                </div>
+            </div>
+            <div class="modal-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="btn-excluir" id="btn-excluir-gasto" style="display: none; width: 100%; justify-content: center; align-items: center; gap: 5px;"><span class="material-icons-round">delete</span> Excluir</button>
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal" style="flex: 1;">Cancelar</button>
+                    <button type="button" class="btn-salvar" id="btn-salvar-gasto" style="flex: 1;">Salvar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal-overlay" id="modal-cartao">
+        <div class="modal-container">
+            <h3>Nova Compra no Cartão</h3>
+            <div class="form-group">
+                <label for="cartao-nome">Descrição</label>
+                <input type="text" id="cartao-nome" placeholder="Ex: Casaco de Frio, Jantar">
+            </div>
+            <div class="form-group">
+                <label for="cartao-valor-total">Valor Total da Compra (R$)</label>
+                <input type="number" id="cartao-valor-total" step="0.01" placeholder="0,00">
+            </div>
+            <div class="form-group">
+                <label for="cartao-parcelas">Quantidade de Parcelas</label>
+                <select id="cartao-parcelas" class="select-input">
+                    <option value="1">1x (À vista)</option>
+                    <option value="2">2x</option>
+                    <option value="3">3x</option>
+                    <option value="4">4x</option>
+                    <option value="5">5x</option>
+                    <option value="6">6x</option>
+                    <option value="10">10x</option>
+                    <option value="12">12x</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="cartao-categoria">Categoria</label>
+                <select id="cartao-categoria" class="select-input">
+                    <option value="Roupas">Roupas</option>
+                    <option value="Beleza">Beleza</option>
+                    <option value="Assinaturas">Assinaturas</option>
+                    <option value="Lazer">Lazer</option>
+                    <option value="Eletrônicos">Eletrônicos</option>
+                    <option value="Outros">Outros</option>
+                </select>
+            </div>
+            
+            <div class="modal-campo-checkbox" style="margin-top: 15px; margin-bottom: 20px;">
+                <label style="display: flex; align-items: center; gap: 10px; cursor: pointer; color: var(--texto-cinza); font-size: 14px; user-select: none;">
+                    <input type="checkbox" id="cartao-proximo-mes" style="accent-color: var(--vermelho-vibrante); width: 17px; height: 17px; cursor: pointer;">
+                    <span style="color: #a0a0a0; font-weight: 500;">1ª parcela no próximo mês</span>
+                </label>
+            </div>
+
+            <div class="modal-actions" style="display: flex; flex-direction: column; gap: 10px;">
+                <button type="button" class="btn-excluir" id="btn-excluir-cartao" style="display: none; width: 100%; background-color: var(--vermelho-vibrante); color: white;">Excluir</button>
+                <div style="display: flex; gap: 10px; width: 100%;">
+                    <button type="button" class="btn-cancelar" id="btn-fechar-modal-cartao" style="flex: 1;">Cancelar</button>
+                    <button type="button" class="btn-salvar" id="btn-salvar-cartao" style="flex: 1;">Adicionar à Fatura</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="apk.js"></script>
+</body>
+</html>
